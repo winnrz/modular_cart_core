@@ -1,3 +1,6 @@
+
+A headless Dart cart engine for configurable products with option/modifier support and deterministic cart line identity (no duplicates, no accidental merges).
+
 <!-- 
 This README describes the package. If you publish this package to pub.dev,
 this README's contents appear on the landing page for your package.
@@ -9,7 +12,6 @@ For general information about developing packages, see the Dart guide for
 [creating packages](https://dart.dev/guides/libraries/create-packages)
 and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/to/develop-packages). 
--->
 
 TODO: Put a short description of the package here that helps potential users
 know whether this package might be useful for them.
@@ -37,3 +39,4 @@ const like = 'sample';
 TODO: Tell users more about the package: where to find more information, how to 
 contribute to the package, how to file issues, what response they can expect 
 from the package authors, and more.
+-->
