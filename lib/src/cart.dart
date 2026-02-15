@@ -1,11 +1,13 @@
-import 'cart_product.dart';
+import 'package:modular_cart_core/src/cart_line.dart' show CartLine;
 
+/// Represents the shopping cart.
+/// 
+/// The cart contains a list of [CartLine] items.  
+/// The list is immutable — you cannot directly add/remove items.
+/// Use helper methods to manipulate cart lines.
 class Cart {
-  final List<CartProduct> cartProducts;
+  /// All lines in the cart.
+  final List<CartLine> lines;
 
-  Cart([List<CartProduct>? products]) : cartProducts = products ?? [];
-
-  //TODO: add methods to add/remove products, calculate total price, etc.
-
-  
+  Cart({List<CartLine>? lines}) : lines = List.unmodifiable(lines ?? []);
 }

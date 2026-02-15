@@ -1,27 +1,35 @@
 import 'package:equatable/equatable.dart';
-import 'cart_product.dart';
+import 'package:modular_cart_core/src/cart_selected_option.dart';
+import 'package:modular_cart_core/src/product.dart';
 
+
+/// A single line in the cart representing a selected product,
+/// its selected options, and its quantity.
 class CartLine extends Equatable {
-  final CartProduct product;
+  /// The selected product.
+  final Product product;
+
+  /// Selected options for this product.
+  final List<CartSelectedOption> selectedOptions;
+
+  /// Quantity of this product.
   final int quantity;
 
-  CartLine({required this.product, this.quantity = 1});
-
-  /// Total price of product + options
-  double get totalPrice {
-    final optionsTotal = product.selectedOptions.fold<double>(
-        0, (sum, o) => sum + o.price * o.quantity);
-    return (product.price * quantity) + optionsTotal;
-  }
-
-  /// Checks if another line is for the same product + options
-  bool isSameAs(CartLine other) => product == other.product;
+  CartLine({
+    required this.product,
+    List<CartSelectedOption> selectedOptions = const [],
+    this.quantity = 1,
+  }) : selectedOptions = List.unmodifiable(selectedOptions);
 
   @override
-  List<Object?> get props => [product, quantity];
+  List<Object?> get props => [product, selectedOptions];
 
   @override
   String toString() {
-    return '${product.name} x$quantity, total: \$${totalPrice.toStringAsFixed(2)}, options: ${product.selectedOptions.map((o) => o.name).join(', ')}';
+    final options = selectedOptions.isEmpty
+        ? 'None'
+        : selectedOptions.map((o) => o.option.id).join(', ');
+
+    return 'CartLine(product: ${product.id}, quantity: $quantity, options: [$options])';
   }
 }
