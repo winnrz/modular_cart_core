@@ -9,17 +9,14 @@ void main() {
       final cart = Cart();
 
       expect(cart.lines, isEmpty);
-      expect(() => cart.lines.add(
-            CartLine(
-              product: Product(id: 'p1', price: 10),
-            ),
-          ), throwsUnsupportedError);
+      expect(
+        () => cart.lines.add(CartLine(product: Product(id: 'p1', price: 10))),
+        throwsUnsupportedError,
+      );
     });
 
-    test('stores a defensive unmodifiable copy of provided lines', () {
-      final source = [
-        CartLine(product: Product(id: 'p1', price: 10)),
-      ];
+    test('makes defensive unmodifiable copy of provided lines', () {
+      final source = [CartLine(product: Product(id: 'p1', price: 10))];
 
       final cart = Cart(lines: source);
       source.add(CartLine(product: Product(id: 'p2', price: 20)));

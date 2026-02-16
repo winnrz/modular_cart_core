@@ -15,7 +15,7 @@ void main() {
       expect(option.metadata, {'name': 'Milk', 'group': 'extras'});
     });
 
-    test('metadata is unmodifiable and defensively copied', () {
+    test('metadata is defensively copied and unmodifiable', () {
       final input = {'name': 'Milk'};
       final option = ProductOption(id: 'o1', price: 1, metadata: input);
 
@@ -25,7 +25,7 @@ void main() {
       expect(() => option.metadata['name'] = 'Ice', throwsUnsupportedError);
     });
 
-    test('getMeta returns typed value and null for missing/wrong type', () {
+    test('getMeta returns typed value or null', () {
       final option = ProductOption(
         id: 'o1',
         price: 1,
@@ -38,7 +38,7 @@ void main() {
       expect(option.getMeta<String>('missing'), isNull);
     });
 
-    test('equality uses id only', () {
+    test('equality is based on id only', () {
       final a = ProductOption(id: 'o1', price: 1, metadata: {'name': 'A'});
       final b = ProductOption(id: 'o1', price: 999, metadata: {'name': 'B'});
       final c = ProductOption(id: 'o2', price: 1);

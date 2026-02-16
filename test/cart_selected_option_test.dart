@@ -13,7 +13,7 @@ void main() {
       expect(selected.quantity, 1);
     });
 
-    test('supports custom quantity', () {
+    test('stores custom quantity', () {
       final selected = CartSelectedOption(
         option: ProductOption(id: 'o1', price: 1),
         quantity: 3,
@@ -22,18 +22,18 @@ void main() {
       expect(selected.quantity, 3);
     });
 
-    test('equality includes option and quantity', () {
+    test('equality is based only on option identity', () {
       final a = CartSelectedOption(
         option: ProductOption(id: 'o1', price: 1),
         quantity: 2,
       );
       final b = CartSelectedOption(
-        option: ProductOption(id: 'o1', price: 9),
-        quantity: 2,
+        option: ProductOption(id: 'o1', price: 99),
+        quantity: 7,
       );
       final c = CartSelectedOption(
-        option: ProductOption(id: 'o1', price: 1),
-        quantity: 3,
+        option: ProductOption(id: 'o2', price: 1),
+        quantity: 2,
       );
 
       expect(a, equals(b));

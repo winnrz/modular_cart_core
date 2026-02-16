@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 
 /// A minimal, immutable product model used by the cart SDK.
 ///
-/// This class is intentionally database-agnostic and UI-agnostic.
-/// Consumers can attach any extra information through [metadata].
+/// This class is database-agnostic and UI-agnostic. Any extra
+/// information should be provided through [metadata].
 class Product extends Equatable {
   /// Unique identifier of the product.
   final String _id;
@@ -13,7 +13,7 @@ class Product extends Equatable {
 
   /// Arbitrary, user-defined metadata attached to this product.
   ///
-  /// This can contain anything such as:
+  /// This can contain:
   /// - name
   /// - image URL
   /// - category
@@ -71,8 +71,7 @@ class Product extends Equatable {
 
   /// Products are considered equal if they share the same [id].
   ///
-  /// This is intentional so cart normalization and merging
-  /// are based on stable product identity.
+  /// This is intentional for cart normalization and merging.
   @override
   List<Object?> get props => [_id];
 
