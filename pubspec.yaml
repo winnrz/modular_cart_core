@@ -1,7 +1,8 @@
 name: modular_cart_core
-description: A starting point for Dart libraries or applications.
+description: A headless Dart cart engine for configurable products with option/modifier support and deterministic cart line identity (no duplicates, no accidental merges).
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+homepage: https://github.com/winnrz/modular_cart_core
+repository: https://github.com/winnrz/modular_cart_core.git
 
 environment:
   sdk: ^3.10.4

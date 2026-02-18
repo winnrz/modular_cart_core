@@ -48,7 +48,11 @@ void main() {
     });
 
     test('toString includes id, price, and metadata', () {
-      final product = Product(id: 'p1', price: 10, metadata: {'name': 'Coffee'});
+      final product = Product(
+        id: 'p1',
+        price: 10,
+        metadata: {'name': 'Coffee'},
+      );
 
       expect(
         product.toString(),

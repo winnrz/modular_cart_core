@@ -22,7 +22,7 @@ void main() {
       expect(selected.quantity, 3);
     });
 
-    test('equality is based only on option identity', () {
+    test('equality is based on option identity and quantity', () {
       final a = CartSelectedOption(
         option: ProductOption(id: 'o1', price: 1),
         quantity: 2,
@@ -36,8 +36,17 @@ void main() {
         quantity: 2,
       );
 
-      expect(a, equals(b));
+      expect(a, isNot(equals(b)));
       expect(a, isNot(equals(c)));
+      expect(
+        a,
+        equals(
+          CartSelectedOption(
+            option: ProductOption(id: 'o1', price: 500),
+            quantity: 2,
+          ),
+        ),
+      );
     });
 
     test('toString shows option id and quantity', () {
@@ -46,7 +55,10 @@ void main() {
         quantity: 2,
       );
 
-      expect(selected.toString(), 'CartSelectedOption(option: o1, quantity: 2)');
+      expect(
+        selected.toString(),
+        'CartSelectedOption(option: o1, quantity: 2)',
+      );
     });
   });
 }

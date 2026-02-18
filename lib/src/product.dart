@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// A minimal, immutable product model used by the cart SDK.
+/// An immutable product model used by the cart SDK.
 ///
 /// This class is database-agnostic and UI-agnostic. Any extra
 /// information should be provided through [metadata].
@@ -29,9 +29,9 @@ class Product extends Equatable {
     required String id,
     required double price,
     Map<String, Object?> metadata = const {},
-  })  : _id = id,
-        _price = price,
-        _metadata = Map.unmodifiable(metadata);
+  }) : _id = id,
+       _price = price,
+       _metadata = Map.unmodifiable(metadata);
 
   // ---------------------------------------------------------------------------
   // Public getters
@@ -49,7 +49,7 @@ class Product extends Equatable {
   Map<String, Object?> get metadata => _metadata;
 
   // ---------------------------------------------------------------------------
-  // Metadata helpers
+  // Helpers
   // ---------------------------------------------------------------------------
 
   /// Returns a typed value from [metadata] if it exists and matches [T].
@@ -65,22 +65,17 @@ class Product extends Equatable {
     return value is T ? value : null;
   }
 
+  // Added for debugging purposes. Not part of the core cart API.
+  @override
+  String toString() {
+    return 'Product(id: $_id, price: $_price, metadata: $_metadata)';
+  }
+
   // ---------------------------------------------------------------------------
   // Equality
   // ---------------------------------------------------------------------------
 
   /// Products are considered equal if they share the same [id].
-  ///
-  /// This is intentional for cart normalization and merging.
   @override
   List<Object?> get props => [_id];
-
-  // ---------------------------------------------------------------------------
-  // Debugging
-  // ---------------------------------------------------------------------------
-
-  @override
-  String toString() {
-    return 'Product(id: $_id, price: $_price, metadata: $_metadata)';
-  }
 }

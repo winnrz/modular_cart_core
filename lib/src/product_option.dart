@@ -30,9 +30,9 @@ class ProductOption extends Equatable {
     required String id,
     required double price,
     Map<String, Object?> metadata = const {},
-  })  : _id = id,
-        _price = price,
-        _metadata = Map.unmodifiable(metadata);
+  }) : _id = id,
+       _price = price,
+       _metadata = Map.unmodifiable(metadata);
 
   // ---------------------------------------------------------------------------
   // Public getters
@@ -50,7 +50,7 @@ class ProductOption extends Equatable {
   Map<String, Object?> get metadata => _metadata;
 
   // ---------------------------------------------------------------------------
-  // Metadata helpers
+  // Helpers
   // ---------------------------------------------------------------------------
 
   /// Returns a typed value from [metadata] if it exists and matches [T].
@@ -66,22 +66,17 @@ class ProductOption extends Equatable {
     return value is T ? value : null;
   }
 
+  // Added for debugging purposes. Not part of the core cart API.
+  @override
+  String toString() {
+    return 'ProductOption(id: $_id, price: $_price, metadata: $_metadata)';
+  }
+
   // ---------------------------------------------------------------------------
   // Equality
   // ---------------------------------------------------------------------------
 
   /// Options are considered equal if they share the same [id].
-  ///
-  /// This allows cart logic to normalize and merge selections reliably.
   @override
   List<Object?> get props => [_id];
-
-  // ---------------------------------------------------------------------------
-  // Debugging
-  // ---------------------------------------------------------------------------
-
-  @override
-  String toString() {
-    return 'ProductOption(id: $_id, price: $_price, metadata: $_metadata)';
-  }
 }

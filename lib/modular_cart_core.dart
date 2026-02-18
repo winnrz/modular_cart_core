@@ -1,8 +1,8 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
+/// Public API for the modular cart SDK.
 library;
 
-export 'src/modular_cart_core_base.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'src/cart.dart';
+export 'src/cart_line.dart';
+export 'src/cart_selected_option.dart';
+export 'src/product.dart';
+export 'src/product_option.dart';

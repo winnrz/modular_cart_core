@@ -27,21 +27,67 @@ class CartLine extends Equatable {
 
   /// Creates a new immutable [CartLine].
   ///
-  /// [selectedOptions] is copied and sorted by `option.id` for normalization.
+  /// [selectedOptions] is normalized to a canonical form:
+  /// - Options with the same `option.id` are merged by summing their quantities
+  /// - The resulting list is sorted by `option.id`
+  ///
+  /// This ensures:
+  /// - Equality checks are order-insensitive
+  /// - Duplicate options inside a single line are avoided
+  /// - Pricing and cart behavior remain consistent
   CartLine({
     required this.product,
     List<CartSelectedOption> selectedOptions = const [],
     this.quantity = 1,
-  }) : selectedOptions = List.unmodifiable(
-         [...selectedOptions]..sort((a, b) => a.option.id.compareTo(b.option.id)),
-       );
+  }) : assert(quantity > 0, 'Quantity must be > 0'),
+       selectedOptions = List.unmodifiable(() {
+         final merged = <String, CartSelectedOption>{};
 
-  /// Equality for cart lines is based on [product] and [selectedOptions].
+         for (final selected in selectedOptions) {
+           final id = selected.option.id;
+
+           final existing = merged[id];
+           if (existing == null) {
+             merged[id] = selected;
+           } else {
+             merged[id] = existing.withAddedQuantity(selected.quantity);
+           }
+         }
+
+         final result = merged.values.toList()
+           ..sort((a, b) => a.option.id.compareTo(b.option.id));
+
+         return result;
+       }());
+
+  // ---------------------------------------------------------------------------
+  // Public getters
+  // ---------------------------------------------------------------------------
+  /// The total price for a cartline.
+  double get totalPrice =>
+      quantity *
+      (product.price + selectedOptions.fold(0, (sum, o) => sum + o.totalPrice));
+
+  // ---------------------------------------------------------------------------
+  // Helpers
+  // ---------------------------------------------------------------------------
+
+  /// Returns a new [CartLine] with optional updated fields.
   ///
-  /// Quantity is intentionally excluded to allow merging.
-  @override
-  List<Object?> get props => [product, selectedOptions];
+  /// Quantity and selected options are normalized automatically.
+  CartLine copyWith({
+    Product? product,
+    List<CartSelectedOption>? selectedOptions,
+    int? quantity,
+  }) {
+    return CartLine(
+      product: product ?? this.product,
+      selectedOptions: selectedOptions ?? this.selectedOptions,
+      quantity: quantity ?? this.quantity,
+    );
+  }
 
+  // Added for debugging purposes. Not part of the core cart API.
   @override
   String toString() {
     final options = selectedOptions.isEmpty
@@ -49,4 +95,14 @@ class CartLine extends Equatable {
         : selectedOptions.map((o) => o.option.id).join(', ');
     return 'CartLine(product: ${product.id}, quantity: $quantity, options: [$options])';
   }
+
+  // ---------------------------------------------------------------------------
+  // Equality
+  // ---------------------------------------------------------------------------
+
+  /// Equality for cart lines is based on [product] and [selectedOptions].
+  ///
+  /// Quantity is intentionally excluded to allow merging.
+  @override
+  List<Object?> get props => [product, selectedOptions];
 }
